@@ -4,34 +4,47 @@ import heroImage from "@/assets/hero-safari.jpg";
 
 const Hero = () => {
   return (
-    <section id="home" className="relative h-screen flex items-center justify-center overflow-hidden">
-      {/* Background Image with Parallax Effect */}
-      <div 
+    <section
+      id="home"
+      className="relative h-screen flex flex-col items-center justify-center overflow-hidden text-white"
+    >
+      {/* Background Image */}
+      <div
         className="absolute inset-0 z-0"
         style={{
           backgroundImage: `url(${heroImage})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
           backgroundAttachment: "fixed",
         }}
       >
-        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/60" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70" />
       </div>
 
       {/* Content */}
-      <div className="relative z-10 container mx-auto px-4 text-center text-white">
-        <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in text-balance">
-          Discover Africa's Untamed Beauty
-        </h1>
-        <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto text-balance opacity-95">
-          Experience Kenya's majestic landscapes, diverse wildlife, and rich cultures with expertly crafted safari tours
+      <div className="relative z-10 container mx-auto px-4 text-center">
+        <p className="uppercase tracking-widest text-primary font-semibold mb-3">
+          Kenya’s Premier Safari Experience
         </p>
+
+        <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in text-balance">
+          Discover Africa’s Untamed Beauty
+        </h1>
+
+        <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto text-balance opacity-95">
+          Experience Kenya’s majestic landscapes, diverse wildlife, and rich
+          cultures with expertly crafted safari tours.
+        </p>
+
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Button
             size="lg"
             className="bg-primary hover:bg-primary/90 text-white text-lg px-8 py-6"
-            onClick={() => document.getElementById("packages")?.scrollIntoView({ behavior: "smooth" })}
+            onClick={() =>
+              document
+                .getElementById("packages")
+                ?.scrollIntoView({ behavior: "smooth" })
+            }
           >
             Explore Safaris
             <ArrowRight className="ml-2" size={20} />
@@ -40,10 +53,30 @@ const Hero = () => {
             size="lg"
             variant="outline"
             className="bg-white/10 hover:bg-white/20 backdrop-blur-sm border-white/50 text-white text-lg px-8 py-6"
-            onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
+            onClick={() =>
+              document
+                .getElementById("contact")
+                ?.scrollIntoView({ behavior: "smooth" })
+            }
           >
             Contact Us
           </Button>
+        </div>
+
+        {/* Stats */}
+        <div className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-8 text-center">
+          <div>
+            <h3 className="text-4xl font-bold text-primary">+50</h3>
+            <p className="text-white/80">Destinations</p>
+          </div>
+          <div>
+            <h3 className="text-4xl font-bold text-primary">10K+</h3>
+            <p className="text-white/80">Happy Travelers</p>
+          </div>
+          <div>
+            <h3 className="text-4xl font-bold text-primary">5★</h3>
+            <p className="text-white/80">TripAdvisor Rating</p>
+          </div>
         </div>
       </div>
 

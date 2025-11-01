@@ -1,23 +1,40 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Check, Clock, Users } from "lucide-react";
+import { Check, Clock, Users, MapPin, Star } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 
 const Packages = () => {
   const { ref, isVisible } = useScrollAnimation(0.2);
+
   const packages = [
     {
       name: "3-Day Maasai Mara Safari",
       price: "$450",
       duration: "3 Days / 2 Nights",
       groupSize: "2-6 People",
-      description: "Experience the iconic Maasai Mara with game drives and wildlife viewing",
+      description: "Experience the iconic Maasai Mara with thrilling game drives and luxury tented camps.",
       features: [
         "Airport transfers included",
         "Luxury tented camp accommodation",
         "All meals and park fees",
         "Professional guide",
-        "Game drives twice daily",
+        "Twice-daily game drives",
+        "Visit to local Maasai village",
+      ],
+    },
+    {
+      name: "5-Day Amboseli & Tsavo Adventure",
+      price: "$850",
+      duration: "5 Days / 4 Nights",
+      groupSize: "2-8 People",
+      description: "Combine Amboseli’s elephant herds with the rugged landscapes of Tsavo.",
+      features: [
+        "Amboseli and Tsavo National Parks",
+        "Mount Kilimanjaro views",
+        "4x4 safari vehicle",
+        "All park entry fees",
+        "Guided nature walks",
+        "Photography sessions with local experts",
       ],
     },
     {
@@ -25,49 +42,38 @@ const Packages = () => {
       price: "$1,250",
       duration: "7 Days / 6 Nights",
       groupSize: "2-6 People",
-      description: "Comprehensive tour of Kenya's best parks and wildlife reserves",
+      description: "See Kenya’s best parks in one unforgettable adventure.",
       features: [
         "Maasai Mara, Amboseli & Lake Nakuru",
         "Lodge and camp accommodation",
         "All meals and park fees",
-        "4x4 safari vehicle",
+        "4x4 safari vehicle with window seat",
         "Cultural village visit",
+        "Hot air balloon optional add-on",
       ],
       popular: true,
-    },
-    {
-      name: "10-Day Safari & Beach Holiday",
-      price: "$1,800",
-      duration: "10 Days / 9 Nights",
-      groupSize: "2-6 People",
-      description: "Ultimate Kenya experience combining safari adventure with beach relaxation",
-      features: [
-        "5 days safari, 5 days beach",
-        "Mix of camps and beach resort",
-        "All meals and activities",
-        "Water sports at Diani Beach",
-        "Sunset dhow cruise",
-      ],
     },
   ];
 
   return (
-    <section id="packages" className="py-20 bg-muted/30">
+    <section id="packages" className="py-40 bg-muted/30">
       <div ref={ref} className="container mx-auto px-4">
-        <div className="text-center mb-16">
+        {/* Header */}
+        <div className="text-center mb-20">
           <h2 className="text-4xl md:text-5xl font-bold mb-4 text-foreground">
             Safari Packages
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Carefully crafted safari experiences for every budget and preference
+            Choose from our handcrafted safari experiences — whether you’re a first-time visitor or a returning explorer, we have something for every traveler.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+        {/* Packages */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-16 max-w-7xl mx-auto">
           {packages.map((pkg, index) => (
             <Card
               key={index}
-              className={`relative overflow-hidden transition-all duration-700 hover:shadow-2xl hover:-translate-y-2 delay-${index * 100} ${
+              className={`relative h-[620px] flex flex-col justify-between overflow-hidden transition-all duration-700 hover:shadow-2xl hover:-translate-y-2 delay-${index * 100} ${
                 pkg.popular ? "border-primary border-2" : ""
               } ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
             >
@@ -76,8 +82,11 @@ const Packages = () => {
                   Most Popular
                 </div>
               )}
+
               <CardHeader>
-                <CardTitle className="text-2xl mb-2">{pkg.name}</CardTitle>
+                <CardTitle className="text-2xl mb-2 flex items-center gap-2">
+                  <MapPin size={20} className="text-primary" /> {pkg.name}
+                </CardTitle>
                 <CardDescription className="text-base">{pkg.description}</CardDescription>
                 <div className="pt-4">
                   <div className="text-4xl font-bold text-primary mb-4">
@@ -96,6 +105,7 @@ const Packages = () => {
                   </div>
                 </div>
               </CardHeader>
+
               <CardContent>
                 <ul className="space-y-3 mb-6">
                   {pkg.features.map((feature, idx) => (
@@ -116,6 +126,38 @@ const Packages = () => {
               </CardContent>
             </Card>
           ))}
+        </div>
+
+        {/* Extra Info Section */}
+        <div className="mt-32 text-center max-w-5xl mx-auto">
+          <h3 className="text-3xl font-bold mb-6 text-foreground">Why Choose Our Safari Packages?</h3>
+          <p className="text-lg text-muted-foreground mb-8">
+            At Ngenybor Tours & Safaris, we don’t just offer tours — we craft unforgettable journeys. 
+            Our safaris are led by passionate local guides, designed around sustainability, and tailored to match your comfort, curiosity, and sense of adventure.
+          </p>
+          <div className="flex flex-wrap justify-center gap-8">
+            <div className="flex flex-col items-center max-w-[250px]">
+              <Star className="text-primary mb-2" size={36} />
+              <p className="font-semibold">Top-rated Guides</p>
+              <p className="text-sm text-muted-foreground text-center">
+                Our guides are certified professionals with deep local knowledge.
+              </p>
+            </div>
+            <div className="flex flex-col items-center max-w-[250px]">
+              <Check className="text-primary mb-2" size={36} />
+              <p className="font-semibold">All-Inclusive Packages</p>
+              <p className="text-sm text-muted-foreground text-center">
+                Transparent pricing — no hidden costs, all meals and park fees included.
+              </p>
+            </div>
+            <div className="flex flex-col items-center max-w-[250px]">
+              <Users className="text-primary mb-2" size={36} />
+              <p className="font-semibold">Personalized Experiences</p>
+              <p className="text-sm text-muted-foreground text-center">
+                From private tours to group safaris, we tailor experiences to your needs.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
