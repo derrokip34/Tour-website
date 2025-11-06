@@ -1,6 +1,6 @@
 import { Award, Heart, Users, Globe2, Leaf, Compass } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/use-scroll-animation";
-import aboutImage from "@/assets/about-safari.jpg"; // Add a nice photo here
+import aboutImage from "@/assets/about-safari.jpg";
 
 const About = () => {
   const { ref, isVisible } = useScrollAnimation(0.2);
@@ -48,27 +48,27 @@ const About = () => {
   ];
 
   return (
-    <section id="about" className="py-20 bg-muted/30">
+    <section id="about" className="py-24 bg-muted/30">
       <div ref={ref} className="container mx-auto px-4">
         {/* Heading */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-foreground">
+          <h2 className="text-4xl sm:text-5xl font-bold mb-4 text-foreground">
             About Ngenybor Tours & Safaris
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+          <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
             A locally owned tour operator passionate about showcasing the beauty
             of East Africa while promoting sustainable tourism.
           </p>
         </div>
 
         {/* Features */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto mb-20">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto mb-20">
           {features.map((feature, index) => {
             const Icon = feature.icon;
             return (
               <div
                 key={index}
-                className={`bg-card p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-700 hover:-translate-y-2 ${
+                className={`bg-card p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-700 transform ${
                   isVisible
                     ? "opacity-100 translate-y-0"
                     : "opacity-0 translate-y-10"
@@ -78,10 +78,10 @@ const About = () => {
                 <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6 mx-auto">
                   <Icon className="text-primary" size={32} />
                 </div>
-                <h3 className="text-xl font-bold mb-3 text-center text-foreground">
+                <h3 className="text-xl font-semibold mb-3 text-center text-foreground">
                   {feature.title}
                 </h3>
-                <p className="text-muted-foreground text-center">
+                <p className="text-muted-foreground text-center leading-relaxed">
                   {feature.description}
                 </p>
               </div>
@@ -91,14 +91,14 @@ const About = () => {
 
         {/* Story Section */}
         <div className="grid md:grid-cols-2 gap-12 items-center max-w-6xl mx-auto mb-20">
-          <div className="rounded-2xl overflow-hidden shadow-lg">
+          <div className="rounded-2xl overflow-hidden shadow-xl order-2 md:order-1">
             <img
               src={aboutImage}
               alt="Safari Adventure"
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
             />
           </div>
-          <div>
+          <div className="order-1 md:order-2">
             <h3 className="text-3xl font-bold mb-4 text-foreground">
               Our Story
             </h3>
@@ -106,8 +106,8 @@ const About = () => {
               Founded over a decade ago, Ngenybor Tours & Safaris began with a
               simple dream — to share the breathtaking beauty of Africa with the
               world. What started as a small, family-run operation has grown
-              into a trusted brand known for authentic experiences, attention to
-              detail, and deep respect for nature.
+              into a trusted brand known for authentic experiences and deep
+              respect for nature.
             </p>
             <p className="text-muted-foreground leading-relaxed">
               From the sweeping plains of the Maasai Mara to the tranquil shores
@@ -129,13 +129,13 @@ const About = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
           {values.map((value, index) => {
             const Icon = value.icon;
             return (
               <div
                 key={index}
-                className={`bg-card p-8 rounded-xl shadow-md hover:shadow-lg transition-all duration-700 ${
+                className={`bg-card p-8 rounded-2xl shadow-md hover:shadow-lg transition-all duration-700 transform ${
                   isVisible
                     ? "opacity-100 translate-y-0"
                     : "opacity-0 translate-y-10"
@@ -145,10 +145,10 @@ const About = () => {
                 <div className="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mb-5 mx-auto">
                   <Icon className="text-primary" size={28} />
                 </div>
-                <h4 className="text-lg font-bold mb-3 text-center text-foreground">
+                <h4 className="text-lg font-semibold mb-3 text-center text-foreground">
                   {value.title}
                 </h4>
-                <p className="text-muted-foreground text-center">
+                <p className="text-muted-foreground text-center leading-relaxed">
                   {value.description}
                 </p>
               </div>
@@ -158,16 +158,16 @@ const About = () => {
 
         {/* CTA */}
         <div className="text-center mt-20">
-          <h3 className="text-2xl font-bold mb-4 text-foreground">
+          <h3 className="text-2xl sm:text-3xl font-bold mb-4 text-foreground">
             Join Us on the Adventure of a Lifetime
           </h3>
-          <p className="text-muted-foreground mb-8">
+          <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
             Discover the heart of Africa with a team that knows it best. Let’s
             create your next unforgettable journey together.
           </p>
           <a
             href="/contact"
-            className="inline-block bg-primary text-white font-semibold px-8 py-4 rounded-full hover:bg-primary/90 transition"
+            className="inline-block bg-primary text-white font-semibold px-8 py-4 rounded-full hover:bg-primary/90 transition-transform hover:scale-105"
           >
             Plan Your Safari
           </a>

@@ -1,180 +1,116 @@
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Camera, Play } from "lucide-react";
-import { useScrollAnimation } from "@/hooks/use-scroll-animation";
-import GalleryLightbox from "./GalleryLightbox";
+import { useState, useEffect } from "react";
+import { Camera, ChevronLeft, ChevronRight } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
-// Import images
 import maasaiMara from "@/assets/maasai-mara.jpg";
 import amboseli from "@/assets/amboseli.jpg";
 import lakeNakuru from "@/assets/lake-nakuru.jpg";
 import dianiBeach from "@/assets/diani-beach.jpg";
 
 const Gallery = () => {
-  const { ref, isVisible } = useScrollAnimation(0.2);
-  const [lightboxOpen, setLightboxOpen] = useState(false);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [selectedCategory, setSelectedCategory] = useState("All");
-  const [videoOpen, setVideoOpen] = useState(false);
-
-  const allImages = [
-    { src: maasaiMara, alt: "Wildebeest migration", category: "Wildlife" },
-    { src: amboseli, alt: "Elephants and Mt. Kilimanjaro", category: "Wildlife" },
-    { src: lakeNakuru, alt: "Flamingos at Lake Nakuru", category: "Wildlife" },
-    { src: dianiBeach, alt: "Diani Beach", category: "Beaches" },
+  const images = [
+    { src: maasaiMara, alt: "Wildebeest migration" },
+    { src: amboseli, alt: "Elephants and Mt. Kilimanjaro" },
+    { src: lakeNakuru, alt: "Flamingos at Lake Nakuru" },
+    { src: dianiBeach, alt: "Diani Beach" },
   ];
 
-  const categories = ["All", "Wildlife", "Landscapes", "Beaches", "Culture", "Experiences"];
+  const [index, setIndex] = useState(0);
+  const [direction, setDirection] = useState(0); // for slide animation
 
-  const images =
-    selectedCategory === "All"
-      ? allImages
-      : allImages.filter((img) => img.category === selectedCategory);
-
-  const openLightbox = (index: number) => {
-    setCurrentImageIndex(index);
-    setLightboxOpen(true);
+  const prevImage = () => {
+    setDirection(-1);
+    setIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
   };
 
-  const handleNext = () => {
-    setCurrentImageIndex((prev) => (prev + 1) % images.length);
+  const nextImage = () => {
+    setDirection(1);
+    setIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
   };
 
-  const handlePrev = () => {
-    setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
+  // Auto-slide every 4s
+  useEffect(() => {
+    const timer = setInterval(() => nextImage(), 4000);
+    return () => clearInterval(timer);
+  }, [index]);
+
+  // Animation variants
+  const variants = {
+    enter: (dir: number) => ({
+      x: dir > 0 ? 80 : -80,
+      opacity: 0,
+    }),
+    center: {
+      x: 0,
+      opacity: 1,
+      transition: { duration: 1.2, ease: "easeInOut" },
+    },
+    exit: (dir: number) => ({
+      x: dir > 0 ? -80 : 80,
+      opacity: 0,
+      transition: { duration: 1.2, ease: "easeInOut" },
+    }),
   };
 
   return (
-    <section id="gallery" className="py-32 bg-background">
-      <div ref={ref} className="container mx-auto px-4">
+    <section id="gallery" className="py-20 bg-background">
+      <div className="container mx-auto px-4 text-center">
         {/* Header */}
-        <div className="text-center mb-16">
+        <div className="mb-12">
           <div className="flex items-center justify-center gap-2 mb-4">
-            <Camera className="text-primary" size={32} />
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground">
+            <Camera className="text-primary" size={28} />
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground">
               Safari Gallery
             </h2>
           </div>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
-            Experience the beauty of Kenya through the lenses of travelers and our guides.
+          <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
+            Experience the beauty of Kenya through our captured safari moments.
           </p>
-
-          {/* Category Filters */}
-          <div className="flex flex-wrap justify-center gap-4 mb-10">
-            {categories.map((category) => (
-              <Button
-                key={category}
-                variant={selectedCategory === category ? "default" : "outline"}
-                className={`rounded-full ${
-                  selectedCategory === category
-                    ? "bg-primary text-white"
-                    : "text-primary border-primary hover:bg-primary hover:text-white"
-                }`}
-                onClick={() => setSelectedCategory(category)}
-              >
-                {category}
-              </Button>
-            ))}
-          </div>
         </div>
 
-        {/* Gallery Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto mb-16">
-          {images.map((image, index) => (
-            <div
+        {/* Carousel */}
+        <div className="relative max-w-5xl mx-auto rounded-2xl overflow-hidden shadow-lg h-[250px] sm:h-[350px] md:h-[450px]">
+          <AnimatePresence custom={direction} mode="wait">
+            <motion.img
               key={index}
-              onClick={() => openLightbox(index)}
-              className={`relative overflow-hidden rounded-xl aspect-square group cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-700 delay-${index * 75} ${
-                isVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"
-              }`}
-            >
-              <div
-                className="w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
-                style={{ backgroundImage: `url(${image.src})` }}
-              />
-              <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center text-white px-2 text-center">
-                <Camera className="mb-2" size={32} />
-                <p className="text-sm font-medium">{image.alt}</p>
-              </div>
-            </div>
-          ))}
-        </div>
+              src={images[index].src}
+              alt={images[index].alt}
+              custom={direction}
+              variants={variants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              className="absolute w-full h-full object-cover"
+            />
+          </AnimatePresence>
 
-        {/* View Full Gallery Button */}
-        <div className="text-center mb-24">
-          <Button
-            size="lg"
-            variant="outline"
-            className="border-primary text-primary hover:bg-primary hover:text-white"
-            onClick={() => {
-              setSelectedCategory("All");
-              setCurrentImageIndex(0);
-              setLightboxOpen(true);
-            }}
+          {/* Controls */}
+          <button
+            onClick={prevImage}
+            className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white p-3 rounded-full transition"
           >
-            View Full Gallery
-          </Button>
-        </div>
+            <ChevronLeft size={20} />
+          </button>
 
-        {/* Video Section */}
-        <div className="relative rounded-2xl overflow-hidden shadow-2xl max-w-5xl mx-auto group">
-          {/* Video Thumbnail */}
-          <div
-            className="relative h-[400px] bg-cover bg-center"
-            style={{
-              backgroundImage: `url(${maasaiMara})`,
-            }}
+          <button
+            onClick={nextImage}
+            className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white p-3 rounded-full transition"
           >
-            <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-center text-white px-6">
-              <h3 className="text-3xl md:text-4xl font-bold mb-4">
-                Safari Experience Video
-              </h3>
-              <p className="text-lg text-white/90 max-w-2xl mb-8">
-                Immerse yourself in the wild — breathtaking moments captured across Kenya’s
-                most iconic destinations.
-              </p>
-              <Button
-                size="lg"
-                className="rounded-full bg-white/20 hover:bg-primary text-white flex items-center gap-2 px-6 py-3"
-                onClick={() => setVideoOpen(true)}
-              >
-                <Play size={20} />
-                Watch Video
-              </Button>
-            </div>
-          </div>
+            <ChevronRight size={20} />
+          </button>
         </div>
 
-        {/* Video Modal */}
-        {videoOpen && (
-          <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
-            <div className="relative w-full max-w-4xl aspect-video">
-              <iframe
-                src="https://www.youtube.com/embed/A5iHJThTKyw"
-                title="Safari Experience"
-                allow="autoplay; encrypted-media"
-                allowFullScreen
-                className="w-full h-full rounded-xl shadow-lg"
-              />
-              <button
-                onClick={() => setVideoOpen(false)}
-                className="absolute top-4 right-4 bg-white/20 hover:bg-white/40 text-white rounded-full p-2"
-              >
-                ✕
-              </button>
-            </div>
-          </div>
-        )}
+        {/* Caption */}
+        <div className="mt-4 text-muted-foreground text-sm font-medium">
+          {images[index].alt}
+        </div>
 
-        {/* Story Section */}
-        <div className="mt-24 text-center max-w-4xl mx-auto">
-          <h3 className="text-3xl font-bold mb-4 text-foreground">
-            Moments Captured by Our Guests
-          </h3>
-          <p className="text-lg text-muted-foreground">
-            Every photograph tells a story — the thrill of spotting a lion on the hunt, 
-            the peace of a sunset over the savannah, or the laughter shared with local communities.  
-            Our guests’ memories are what make Ngenybor Tours truly special.
+        {/* Description */}
+        <div className="mt-12 max-w-3xl mx-auto text-muted-foreground text-lg leading-relaxed">
+          <p>
+            Every photograph tells a story — the thrill of spotting a lion on the hunt,
+            the calm of a sunset over the savannah, or the laughter shared on the trail.
+            These are the unforgettable moments of Ngenybor Tours.
           </p>
         </div>
       </div>
