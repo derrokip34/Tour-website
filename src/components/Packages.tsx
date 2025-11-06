@@ -21,6 +21,7 @@ const Packages = () => {
         "Twice-daily game drives",
         "Visit to local Maasai village",
       ],
+      popular: false,
     },
     {
       name: "5-Day Amboseli & Tsavo Adventure",
@@ -36,6 +37,7 @@ const Packages = () => {
         "Guided nature walks",
         "Photography sessions with local experts",
       ],
+      popular: false,
     },
     {
       name: "7-Day Kenya Highlights Safari",
@@ -51,7 +53,7 @@ const Packages = () => {
         "Cultural village visit",
         "Hot air balloon optional add-on",
       ],
-      popular: true,
+      popular: false,
     },
   ];
 
